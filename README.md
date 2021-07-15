@@ -83,6 +83,7 @@ sasl.enabled.mechanisms=SCRAM-SHA-512
 ssl.endpoint.identification.algorithm=
 ssl.client.auth=required
 ssl.enabled.protocols=TLSv1.2,TLSv1.1
+ssl.secure.random.implementation=SHA1PRNG
 
 # Broker security settings
 ssl.truststore.location=C:\\kafka_2.13-2.8.0\\config\\truststore\\kafka.server.truststore.jks
