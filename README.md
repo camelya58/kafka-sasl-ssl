@@ -258,3 +258,4 @@ public class KafkaConsumerConfig {
     }
 }
 ```
+For more information see the [article](https://dzone.com/articles/kafka-security-with-sasl-and-acl).
