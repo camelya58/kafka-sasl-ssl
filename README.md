@@ -13,8 +13,11 @@ You need to specify two parameters in the above command:
 - validity: the valid time of the certificate in days.
 
 Ensure that common name (CN) matches exactly with the fully qualified domain name (FQDN) of the server. The client compares the CN with the DNS domain name to ensure that it is indeed connecting to the desired server, not a malicious one.
-
-## Creating your own CA
+```
+What is your first and last name?
+    [Unknown]: localhost (or any domain name of kafka server)
+```
+ 
 After the first step, each machine in the cluster has a public-private key pair, and a certificate to identify the machine. The certificate, however, is unsigned.
 
 A certificate authority (CA) is responsible for signing certificates. 
@@ -136,8 +139,9 @@ spring:
     hostname: localhost
     port: 9092
     bootstrapAddress: ${spring.kafka.hostname}:${spring.kafka.port}
+    topic: test-topic
     consumer:
-      group-id: group
+      group-id: test-consumer-group
     properties:
       security:
         protocol: SASL_SSL
@@ -257,5 +261,29 @@ public class KafkaConsumerConfig {
         return factory;
     }
 }
+```
+
+## Create Consumer using console
+Create the file ssl-consumer.properties.
+```
+bootstrap.servers=localhost:9092
+# consumer group id
+group.id=test-consumer-group
+
+### SECURITY ######
+security.protocol=SASL_SSL
+sasl.mechanism=SCRAM-SHA-512
+sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="admin" password="admin123";
+ssl.truststore.location=\\kafka_2.13-2.8.0\\config\\truststore\\kafka.client.truststore.jks
+ssl.truststore.password=changeit
+```
+Enter command
+```
+.\bin\windows\kafka-acls.bat --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal User:admin --consumer --topic test-topic --group test-consumer-group
+```
+
+Set up a console for consumer 
+```
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test-topic --from-beginning --consumer.config config/ssl-consumer.properties
 ```
 For more information see the [article](https://dzone.com/articles/kafka-security-with-sasl-and-acl).
