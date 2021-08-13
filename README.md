@@ -66,13 +66,7 @@ KafkaServer {
    password="admin123";
 };
 ```
-User credentials for the SCRAM mechanism are stored in ZooKeeper. The kafka-configs.sh tool can be used to manage them
-```
- .\windows\kafka-configs.bat --zookeeper localhost:2181 --alter --add-config SCRAM-SHA-512=[password=admin123] --entity-type users --entity-name admin
-Warning: --zookeeper is deprecated and will be removed in a future version of Kafka.
-Use --bootstrap-server instead to specify a broker to connect to.
-Completed updating config for entity: user-principal 'admin'.
-```
+
 Add to ${kafka-home}/config/server.properties file
 ```
 broker.id=0
@@ -113,6 +107,14 @@ scram-sha-512.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLogin
 .\zookeeper-server-start.sh ..\config\zookeeper.properties
 or
 .\windows\zookeeper-server-start.bat ..\config\zookeeper.properties
+```
+## Register the user
+User credentials for the SCRAM mechanism are stored in ZooKeeper. The kafka-configs.sh tool can be used to manage them
+```
+ .\windows\kafka-configs.bat --zookeeper localhost:2181 --alter --add-config SCRAM-SHA-512=[password=admin123] --entity-type users --entity-name admin
+Warning: --zookeeper is deprecated and will be removed in a future version of Kafka.
+Use --bootstrap-server instead to specify a broker to connect to.
+Completed updating config for entity: user-principal 'admin'.
 ```
 
 ## Start Kafka with JAAS
