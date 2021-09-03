@@ -20,7 +20,7 @@ What is your first and last name?
  
 After the first step, each machine in the cluster has a public-private key pair, and a certificate to identify the machine. The certificate, however, is unsigned.
 
-A certificate authority (CA) is responsible for signing certificates. 
+A certificate authority (CA) is responsible for signing certificates. For Windows you can use Git Bash.
 ```
 openssl req -new -x509 -keyout ca-key -out ca-cert -days 365
 ```
